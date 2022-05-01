@@ -1,0 +1,17 @@
+FROM arm32v7/python:3.7-slim-buster
+
+EXPOSE 8181
+
+COPY app.py ./
+
+# set the context from now on to use the root user for installing dependencies
+USER root
+
+RUN apt-get update \
+    && apt-get install gcc -y
+# python3-pip \
+# python3-rpi.gpio
+RUN pip install --no-cache-dir rpi.gpio \
+    pip install --no-cache-dir paho-mqtt 
+
+CMD [ "python3", "./app.py"]
